@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Fitness Hoevelhof – Chat</title>
+  <style>
+    :root {
+      --accent: #e8400c;
+      --accent-dark: #b83008;
+      --bg: #f5f5f5;
+      --bubble-bot: #ffffff;
+      --bubble-user: var(--accent);
+      --text: #1a1a1a;
+      --text-light: #666;
+      --radius: 18px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.13);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .widget {
+      width: 420px;
+      max-width: 100vw;
+      height: 680px;
+      max-height: 100vh;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: var(--accent);
+      color: #fff;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    .header-text h1 { font-size: 15px; font-weight: 700; }
+    .header-text p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+    /* Messages */
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .msg.bot {
+      background: var(--bubble-bot);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .msg.user {
+      background: var(--bubble-user);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      align-self: flex-end;
+    }
+
+    .msg.privacy {
+      font-size: 11px;
+      color: #888880;
+      background: #f7f7f7;
+      border: none;
+      box-shadow: none;
+      max-width: 90%;
+      padding: 8px 12px;
+    }
+
+    /* Typing indicator */
+    .typing {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 14px;
+      background: var(--bubble-bot);
+      border-radius: var(--radius);
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .typing span {
+      width: 7px;
+      height: 7px;
+      background: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      animation: bounce 1.2s infinite;
+    }
+    .typing span:nth-child(2) { animation-delay: 0.2s; }
+    .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    /* Quick chips */
+    .chips {
+      padding: 10px 16px 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .chip {
+      background: #fff;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      border-radius: 10px;
+      padding: 7px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .chip:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Input area */
+    .input-area {
+      padding: 10px 16px 14px;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      border-top: 1px solid #eee;
+    }
+
+    .input-area input {
+      flex: 1;
+      border: 1.5px solid #ddd;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+      font-family: inherit;
+    }
+
+    .input-area input:focus { border-color: var(--accent); }
+
+    .input-area button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .input-area button:hover { background: var(--accent-dark); }
+    .input-area button:disabled { background: #ccc; cursor: default; }
+
+    /* Footer */
+    .widget-footer {
+      text-align: center;
+      font-size: 10px;
+      color: #bbb;
+      padding: 0 16px 10px;
+      flex-shrink: 0;
+    }
+
+    /* Scrollbar */
+    .messages::-webkit-scrollbar { width: 4px; }
+    .messages::-webkit-scrollbar-track { background: transparent; }
+    .messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="widget">
+  <div class="header">
+    <div class="logo-mark">AF</div>
+    <div class="header-text">
+      <h1>Active Fitness</h1>
+      <p>Dein Fitnessstudio in Hoevelhof</p>
+    </div>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="msg bot">
+      Hallo! Willkommen bei <strong>Active Fitness Hoevelhof</strong>. Ich beantworte gerne deine Fragen zu unserem Studio, Kursen, Oeffnungszeiten und mehr!
+    </div>
+    <div class="msg bot privacy">
+      Ich bin ein KI-gestuetzter Chatbot und beantworte Fragen zu diesem Unternehmen. Deine Eingaben koennen technisch verarbeitet werden. Bitte gib keine sensiblen personenbezogenen Daten ein. Weitere Informationen findest du in der Datenschutzerklaerung.
+    </div>
+  </div>
+
+  <div class="chips" id="chips">
+    <button class="chip" id="chip1">Oeffnungszeiten</button>
+    <button class="chip" id="chip2">Mitgliedschaft &amp; Preise</button>
+    <button class="chip" id="chip3">Kurse &amp; Kursplan</button>
+    <button class="chip" id="chip4">Sauna &amp; Angebote</button>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Deine Frage..." autocomplete="off" />
+    <button id="sendBtn" aria-label="Senden">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+
+  <div class="widget-footer">Active Fitness Hoevelhof &middot; Powered by KI</div>
+</div>
+
+<script>
+  const API_URL = '/.netlify/functions/chat';
+
+  const SYSTEM_PROMPT = `Du bist der freundliche KI-Chatbot von Active Fitness Hoevelhof. Beantworte Fragen kurz, klar und hilfsbereit auf Deutsch. Verweise bei komplexen Anfragen auf persoenlichen Kontakt oder Vorort-Besuch.
+
+UNTERNEHMEN:
+Name: Active Fitness Hoevelhof
+Adresse: Hoevelmarkt 5, 33161 Hoevelhof
+Telefon: 05257 / 930 597
+E-Mail: info@fitness-active.de
+Website: www.fitness-active.de
+Beschreibung: Privat gefuehrtes Fitnessstudio seit ueber 25 Jahren im Herzen von Hoevelhof. Fitness auf 4 Etagen – Krafttraining, Ausdauer, Kurse, Boxen, Sauna.
+
+OEFFNUNGSZEITEN FITNESSSTUDIO:
+Montag bis Freitag: 08:30 – 22:00 Uhr (Vorort-Beratung ab 18:00 Uhr)
+Samstag: 10:00 – 17:00 Uhr (Vorort-Beratung mit Termin)
+Sonntag: 10:00 – 17:00 Uhr (Vorort-Beratung mit Termin)
+
+OEFFNUNGSZEITEN SAUNA:
+Dienstag: 09:00-12:00 Infrarot Maenner / 12:30-22:00 Damen-Sauna
+Mittwoch: Sauna mietbar 15:00-22:00 Uhr (mit Voranmeldung)
+Donnerstag: 09:00-12:00 Infrarot Damen / 12:30-22:00 Maenner-Sauna
+Freitag: Sauna mietbar 15:00-22:00 Uhr (mit Voranmeldung)
+Samstag: 10:00-17:00 Gemischte Sauna
+Montag / Sonntag: Keine Sauna
+
+LEISTUNGEN & BEREICHE:
+- Fitness- und Krafttraining auf mehreren Ebenen
+- Powerkraftraum "Down Under"
+- Herzkreislauf- / Ausdauerbereich
+- Functional Training (Naomi Tower)
+- Boxtraining & MMA
+- Sauna & Massagen (Saunabereich mit Liegen)
+- Kurse: Zumba (Erwachsene, Kids, Teens), Muay Thai
+
+KURSPLAN (aktuell):
+Montag: Zumba For Kids 3-6 J. 16-17 Uhr, Zumba Teens 12-16 J. 17-18 Uhr, Zumba Erwachsene 20:15-21:15 Uhr
+Dienstag: Muay Thai 19:00-20:30 Uhr
+Mittwoch: Zumba Kids 4-6 J. 16-17 Uhr, Zumba Kids 7-11 J. 17-18 Uhr, Zumba Erwachsene 18:30-19:30 Uhr
+Donnerstag: Muay Thai 19:00-20:30 Uhr
+
+PROBETRAINING:
+Probetraining und ausfuehrliche Bestandsaufnahme zu Beginn der Mitgliedschaft werden angeboten. Umfangreich und aufschlussreich – laut Kundenfeedback sehr positiv bewertet.
+
+BESONDERHEITEN:
+- Privat gefuehrt, persoenliche Atmosphaere – keine anonyme Fitnesskette
+- Engagierter Inhaber mit Leidenschaft
+- Mitarbeiter immer ansprechbar fuer Fragen
+- Angenehme Atmosphaere auch zu Stosszeithen – Kundschaft verlaeuft sich gut ueber 4 Ebenen
+- Sauna kann auch privat gemietet werden (Mi & Fr mit Voranmeldung)
+
+KUNDENSTIMMEN:
+"Tolles Studio mit freundlichen Mitarbeitern und einem engagierten Inhaber! Das Studio erstreckt sich ueber 4 Ebenen und bietet eine grosse Auswahl an verschiedensten Geraeten. Vor allem das Probetraining und die Bestandsaufnahme habe ich als sehr umfang- und aufschlussreich wahrgenommen."
+"Sehr netter Inhaber, dem man die Leidenschaft anmerkt. Neben Geraeten werden noch Boxen, MMA-Kurse und Sauna angeboten. Top!"
+"Hier erlebt man noch die Atmosphaere von einem privat gefuehrten Studio und ist keine Nummer wie in einer Fitnesskette."
+"Bin seit knapp einem Jahr da. Der Trainer ist immer fuer eine Frage und Antwort zu haben. Nettes Umfeld."
+
+PREISE / MITGLIEDSCHAFT:
+Fuer genaue Preise und Mitgliedschaftskonditionen bitte direkt Kontakt aufnehmen (Telefon oder E-Mail) oder das Studio besuchen. Beratung Vorort Mo-Fr ab 18 Uhr bzw. Sa/So mit Termin.
+
+TONALITAET: Freundlich, motivierend, direkt. Kurze Antworten bevorzugen. Bei Fragen zu Preisen oder spezifischen Vertraegen immer auf persoenliches Gespraech verweisen.`;
+
+  const conversationHistory = [];
+
+  const messagesEl = document.getElementById('messages');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function scrollToBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function appendMessage(text, role) {
+    const div = document.createElement('div');
+    div.classList.add('msg', role);
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+    return div;
+  }
+
+  function showTyping() {
+    const div = document.createElement('div');
+    div.classList.add('typing');
+    div.id = 'typing-indicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(div);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage(text) {
+    if (!text.trim()) return;
+
+    appendMessage(text, 'user');
+    conversationHistory.push({ role: 'user', content: text });
+    userInput.value = '';
+    sendBtn.disabled = true;
+    showTyping();
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: conversationHistory, system: SYSTEM_PROMPT })
+      });
+
+      const data = await res.json();
+      removeTyping();
+
+      const botText = data.content && data.content[0] && data.content[0].text
+        ? data.content[0].text
+        : 'Entschuldigung, da ist etwas schiefgelaufen. Bitte versuche es erneut oder ruf uns an: 05257 / 930 597';
+
+      appendMessage(botText, 'bot');
+      conversationHistory.push({ role: 'assistant', content: botText });
+
+    } catch (err) {
+      removeTyping();
+      appendMessage('Verbindungsfehler. Bitte ruf uns direkt an: 05257 / 930 597', 'bot');
+    }
+
+    sendBtn.disabled = false;
+    userInput.focus();
+  }
+
+  sendBtn.addEventListener('click', function() {
+    sendMessage(userInput.value);
+  });
+
+  userInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') sendMessage(userInput.value);
+  });
+
+  document.getElementById('chip1').addEventListener('click', function() {
+    sendMessage('Was sind eure Oeffnungszeiten?');
+  });
+
+  document.getElementById('chip2').addEventListener('click', function() {
+    sendMessage('Was kostet eine Mitgliedschaft?');
+  });
+
+  document.getElementById('chip3').addEventListener('click', function() {
+    sendMessage('Welche Kurse bietet ihr an?');
+  });
+
+  document.getElementById('chip4').addEventListener('click', function() {
+    sendMessage('Erzaehl mir mehr ueber die Sauna.');
+  });
+</script>
+</body>
+</html>
