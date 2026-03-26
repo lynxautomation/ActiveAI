@@ -338,10 +338,26 @@ TONALITAET: Freundlich, motivierend, direkt. Kurze Antworten bevorzugen. Bei Fra
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
+  function renderMarkdown(text) {
+    return text
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/^### (.+)$/gm, '<strong>$1</strong>')
+      .replace(/^## (.+)$/gm, '<strong>$1</strong>')
+      .replace(/^# (.+)$/gm, '<strong>$1</strong>')
+      .replace(/^[-*] (.+)$/gm, '&bull; $1')
+      .replace(/\n/g, '<br>');
+  }
+
   function appendMessage(text, role) {
     const div = document.createElement('div');
     div.classList.add('msg', role);
-    div.textContent = text;
+    if (role === 'bot') {
+      div.innerHTML = renderMarkdown(text);
+    } else {
+      div.textContent = text;
+    }
     messagesEl.appendChild(div);
     scrollToBottom();
     return div;
