@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Active Fitness Hoevelhof – Chat</title>
+  <title>Active Fitness Hövelhof – Chat</title>
   <style>
     :root {
       --accent: #e8400c;
@@ -312,22 +312,22 @@
     <div class="logo-mark">AF</div>
     <div class="header-text">
       <h1>Active Fitness</h1>
-      <p>Dein Fitnessstudio in Hoevelhof</p>
+      <p>Dein Fitnessstudio in Hövelhof</p>
     </div>
-    <button class="close-btn" id="closeBtn" aria-label="Schliessen">&#x2715;</button>
+    <button class="close-btn" id="closeBtn" aria-label="Schließen">&#x2715;</button>
   </div>
 
   <div class="messages" id="messages">
     <div class="msg bot">
-      Hallo! Willkommen bei <strong>Active Fitness Hoevelhof</strong>. Ich beantworte gerne deine Fragen zu unserem Studio, Kursen, Oeffnungszeiten und mehr!
+      Hallo! Willkommen beim <strong>Active Fitness Hövelhof</strong>. Ich beantworte gerne deine Fragen zu unserem Studio, Kursen, Öffnungszeiten und mehr!
     </div>
     <div class="msg bot privacy">
-      Ich bin ein KI-gestuetzter Chatbot und beantworte Fragen zu diesem Unternehmen. Deine Eingaben koennen technisch verarbeitet werden. Bitte gib keine sensiblen personenbezogenen Daten ein. Weitere Informationen findest du in der Datenschutzerklaerung.
+      Ich bin ein KI-gestützter Chatbot und beantworte Fragen zu diesem Unternehmen. Deine Eingaben können technisch verarbeitet werden. Bitte gib keine sensiblen personenbezogenen Daten ein. Weitere Informationen findest du in der Datenschutzerklärung.
     </div>
   </div>
 
   <div class="chips" id="chips">
-    <button class="chip" id="chip1">Oeffnungszeiten</button>
+    <button class="chip" id="chip1">Öffnungszeiten</button>
     <button class="chip" id="chip2">Mitgliedschaft &amp; Preise</button>
     <button class="chip" id="chip3">Kurse &amp; Kursplan</button>
     <button class="chip" id="chip4">Sauna &amp; Angebote</button>
@@ -343,11 +343,11 @@
     </button>
   </div>
 
-  <div class="widget-footer">Active Fitness Hoevelhof &middot; Powered by KI</div>
+  <div class="widget-footer">Active Fitness Hövelhof &middot; Powered by LynxAI</div>
 </div>
 </div>
 
-<button class="bubble-btn" id="bubbleBtn" aria-label="Chat oeffnen">
+<button class="bubble-btn" id="bubbleBtn" aria-label="Chat öffnen">
   <span class="bubble-logo">AF</span>
   <svg class="bubble-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -369,7 +369,7 @@
     widgetWrapper.classList.remove('open');
   });
 
-  const SYSTEM_PROMPT = `Du bist der freundliche KI-Chatbot von Active Fitness Hövelhof.
+  const SYSTEM_PROMPT = `Du bist der freundliche KI-Chatbot vom Active Fitness Hövelhof.
 
 ABSOLUT WICHTIG – SPRACHE:
 Schreibe IMMER mit korrekten deutschen Umlauten: ä, ö, ü, Ä, Ö, Ü, ß.
@@ -377,8 +377,8 @@ NIEMALS ae, oe, ue, Ae, Oe, Ue schreiben. Immer ä, ö, ü verwenden.
 Beispiel: "Öffnungszeiten" (nicht "Oeffnungszeiten"), "für" (nicht "fuer"), "über" (nicht "ueber").
 
 ANTWORT-REGELN (sehr wichtig!):
-- Beantworte immer nur genau das, was gefragt wird – keine zusätzlichen Infos ungefragt
-- Antworte kurz und präzise, maximal 3-5 Sätze oder eine übersichtliche Liste
+- Beantworte immer nur das, was gefragt wird – keine zusätzlichen Infos ungefragt
+- Antworte kurz und präzise, maximal 4-6 Sätze oder eine übersichtliche Liste
 - Wenn jemand nach Preisen oder Mitgliedschaft fragt: Nenne nur den direkt relevanten Preis, frage am Ende ob Interesse an einem Probemonat oder Probetraining besteht
 - Nicht alle Infos auf einmal rauswerfen – lieber nachfragen: "Möchtest du mehr dazu wissen?"
 - Bei unklaren Fragen: kurz nachfragen was genau gemeint ist
@@ -453,7 +453,7 @@ EXTRAS & ANNEHMLICHKEITEN:
 - Umkleiden mit Duschen für Männer und Frauen, separate Spinde für Frauen
 
 KOSTENLOSER BESUCH / SCHNUPPERN:
-Wer das Studio einmal anschauen oder als Besucher mittrainieren möchte, kann das kostenlos tun – es muss nur jemand vom Team vor Ort sein. Einfach vorher kurz anrufen oder vorbeikommen.
+Wer das Studio einmal anschauen oder als Besucher trainieren möchte, kann das kostenlos tun – es muss nur jemand vom Team vor Ort sein. Einfach vorher kurz anrufen oder vorbeikommen.
 
 EXTRAS & ANNEHMLICHKEITEN:
 - Gratis Wasser mit Gläsern und Geschmackszusatz am Eingangsbereich
@@ -568,7 +568,7 @@ TONALITÄT: Freundlich, motivierend, auf den Punkt. Kurze Antworten. Proaktiv au
   });
 
   document.getElementById('chip1').addEventListener('click', function() {
-    sendMessage('Was sind eure Oeffnungszeiten?');
+    sendMessage('Was sind eure Öffnungszeiten?');
   });
 
   document.getElementById('chip2').addEventListener('click', function() {
@@ -580,7 +580,7 @@ TONALITÄT: Freundlich, motivierend, auf den Punkt. Kurze Antworten. Proaktiv au
   });
 
   document.getElementById('chip4').addEventListener('click', function() {
-    sendMessage('Erzaehl mir mehr ueber die Sauna.');
+    sendMessage('Erzähl mir mehr über die Sauna.');
   });
 </script>
 </body>
